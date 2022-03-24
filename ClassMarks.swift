@@ -17,19 +17,19 @@ import Foundation
 func generateMarks(studentArray: [String], assignmentsArray: [String]) -> [[String]] {
     // declaring constants
     let assignmentLen: Int = assignmentsArray.count
-    let studentLen: Int = studentArray.count 
+    let studentLen: Int = studentArray.count
 
     // declaring variables
     var marks2d = Array(repeating: Array(repeating: "", count: assignmentLen + 1), count: studentLen + 1)
 
     // adds names of students to the array
-    for nameRowCounter in 0..<studentArray.count {
-        marks2d[0][nameRowCounter] = studentArray[nameRowCounter]
+    for counterName in 1..<studentArray.count {
+        marks2d[counterName][0] = studentArray[counterName - 1]
     }
 
     // adds marks to each student
-    for counterStudents in 0..<studentArray.count {
-        for counterMarks in 0..<assignmentsArray.count {
+    for counterStudents in 1..<assignmentsArray.count {
+        for counterMarks in 1..<studentArray.count {
             // https://developer.apple.com/documentation/gameplaykit/gkgaussiandistribution
             let ranMark = Int.random(in: 50...100)
             marks2d[counterMarks][counterStudents].append(String(ranMark))
@@ -54,13 +54,15 @@ let assignFile: String = try String(contentsOfFile: assignLocation)
 let assignmentsArrayFile: [String] = assignFile.components(separatedBy: "\n")
 
 // function call
-let markArrayUser: [[String]] = generateMarks(studentArray: studentArrayFile, assignmentsArray: assignmentsArrayFile)
+var markArrayUser: [[String]] = generateMarks(studentArray: studentArrayFile, assignmentsArray: assignmentsArrayFile)
 
 // add the 2D array to a csv file
-try text.write(to: URL(fileURLWithPath: "/home/ubuntu/ICS4U/Unit1/Unit1-07/Unit1-07-Swift/marks.csv"), atomically: false, encoding: .utf8)
-if let fileWriter = try? FileHandle(forUpdating: URL(fileURLWithPath: "/home/ubuntu/ICS4U/Unit1/Unit1-07/Unit1-07-Swift/marks.csv")) {
+try text.write(to: URL(fileURLWithPath: "/home/ubuntu/ICS4U/Unit1/Unit1-07/Unit1-07-Swift/marks.csv"),
+    atomically: false, encoding: .utf8)
+if let fileWriter = try? FileHandle(forUpdating:
+    URL(fileURLWithPath: "/home/ubuntu/ICS4U/Unit1/Unit1-07/Unit1-07-Swift/marks.csv")) {
     for array in markArrayUser {
-        let arrayToString = array.joined(separator: " ") + "\n"
+        let arrayToString = array.joined(separator: "       ") + "\n"
         fileWriter.seekToEndOfFile()
         fileWriter.write(arrayToString.data(using: .utf8)!)
     }
