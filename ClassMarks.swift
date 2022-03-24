@@ -30,7 +30,6 @@ func generateMarks(studentArray: [String], assignmentsArray: [String]) -> [[Stri
     // adds marks to each student
     for counterStudents in 1..<assignmentsArray.count {
         for counterMarks in 1..<studentArray.count {
-            // https://developer.apple.com/documentation/gameplaykit/gkgaussiandistribution
             let ranMark = Int.random(in: 50...100)
             marks2d[counterMarks][counterStudents].append(String(ranMark))
         }
